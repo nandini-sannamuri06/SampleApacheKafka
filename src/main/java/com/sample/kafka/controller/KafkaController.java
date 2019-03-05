@@ -1,27 +1,22 @@
-package com.sample.kafka.controller;
+package com.sample.kafka;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
-import com.sample.kafka.ItemDetails;
+import com.google.gson.Gson;
+import com.sample.kafka.Repository.ItemDetailsRepository;
 
-@RestController
-public class KafkaController {
-	
+@Component
+public class KafkaListner {
+	 
 	@Autowired
-	KafkaTemplate<String, String> kafkaTemplate;
+	ItemDetailsRepository itemDetailsRepository;
 	
-	
-	@PostMapping(value="/sender")
-	public ResponseEntity<String> sendData(@RequestBody String data) {
-		kafkaTemplate.send("SAMPLE_TEST_TOPIC", data.toString());
-		return new ResponseEntity<String>("Data sent successfully",HttpStatus.OK);
-	}
-	
-
+	 @KafkaListener(topics= {"SAMPLE_TEST_TOPIC"}, groupId = "group-id")
+	    public void listenPartition0(ConsumerRecord<?, ?> record) {
+	        System.out.println("Received: " + record.value());
+	        itemDetailsRepository.save(new Gson().fromJson(record.value().toString(),ItemDetails.class));
+	    }
 }
