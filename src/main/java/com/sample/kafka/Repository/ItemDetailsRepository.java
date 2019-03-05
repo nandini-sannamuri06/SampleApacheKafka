@@ -5,5 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.sample.kafka.ItemDetails;
 
 public interface ItemDetailsRepository extends MongoRepository<ItemDetails, Integer>{
+  
+  Optional<ItemDetails> findByItemId(Integer itemId);
 
 }
