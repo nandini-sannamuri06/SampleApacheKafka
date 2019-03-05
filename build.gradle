@@ -1,0 +1,60 @@
+buildscript {
+	ext {
+		springBootVersion = '2.2.0.BUILD-SNAPSHOT'
+		lombokVersion = '1.16.16'
+	}
+	repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+/*plugins {
+    id "org.sonarqube" version "2.6.1"
+}*/
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+//apply plugin: 'org.sonarqube'
+apply plugin: 'jacoco'
+apply plugin: 'war'
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+	baseName = 'SampleApacheKafka'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+war {
+	archiveName 'SampleApacheKafka.war'
+    }
+
+
+/*sonarqube {
+  properties {
+    property "sonar.projectName", "SampleApacheKafka"
+    property "sonar.projectKey", "SampleApacheKafka"
+    property "sonar.test.inclusions","${project.buildDir}/src/test/java"
+    property "sonar.java.coveragePlugin", "jacoco"
+    property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/test.exec"
+    property "sonar.web.port",9000
+  }
+}*/
+
+dependencies {
+	compile('org.springframework.kafka:spring-kafka')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-webflux')
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+}

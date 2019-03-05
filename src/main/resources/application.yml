@@ -1,0 +1,9 @@
+spring:
+    kafka:
+         bootstrap-servers: localhost:2181
+    data:
+        mongodb:
+              database: itemDetails 
+              host: localhost
+              port: 27017
+               
