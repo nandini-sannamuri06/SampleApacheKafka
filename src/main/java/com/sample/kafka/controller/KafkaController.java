@@ -18,7 +18,7 @@ public class KafkaController {
 	
 	
 	@PostMapping(value="/sender")
-	public ResponseEntity<String> sendData(@RequestBody ItemDetails data) {
+	public ResponseEntity<String> sendData(@RequestBody String data) {
 		kafkaTemplate.send("SAMPLE_TEST_TOPIC", data.toString());
 		return new ResponseEntity<String>("Data sent successfully",HttpStatus.OK);
 	}
