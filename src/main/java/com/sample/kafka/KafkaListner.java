@@ -15,8 +15,9 @@ public class KafkaListner {
 	ItemDetailsRepository itemDetailsRepository;
 	
 	 @KafkaListener(topics= {"SAMPLE_TEST_TOPIC"}, groupId = "group-id")
-	    public void listenPartition0(ConsumerRecord<?, ?> record) {
+	    public void messageListener(ConsumerRecord<?, ?> record) {
 	        System.out.println("Received: " + record.value());
-	        itemDetailsRepository.save(new Gson().fromJson(record.value().toString(),ItemDetails.class));
+	        ItemDetails itemDetails = itemDetailsRepository.save(new Gson().fromJson(record.value().toString(),ItemDetails.class));
+	        System.out.println("ItemDetails Saved"+itemDetails.getItemName());
 	    }
 }
